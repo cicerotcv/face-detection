@@ -34,9 +34,16 @@ with pyvirtualcam.Camera(width, height, fps, fmt=PixelFormat.BGR) as cam:
             detections = face_cascade.detectMultiScale(gray, 1.1, 4)
 
             for (x, y, w, h) in detections:
-                s_gray = gray[y:y+h, x:x+w]
-                s_gray = cv2.cvtColor(s_gray, cv2.COLOR_GRAY2RGB)
-                img[y:y+h, x:x+w, :] = s_gray
+                # s_gray = gray[y:y+h, x:x+w]
+                # s_gray = cv2.cvtColor(s_gray, cv2.COLOR_GRAY2RGB)
+                # img[y:y+h, x:x+w, :] = s_gray
+
+                sub_img = img[y:y+h, x:x+w, :3]
+                red_rect = np.ones(sub_img.shape, dtype=np.uint8)*255
+                red_rect[:, :, :] = [0, 20, 150]
+                res = cv2.addWeighted(sub_img, 0.5, red_rect, 0.5, 1.0)
+                img[y:y+h, x:x+w, :] = res
+                cv2.rectangle(img, (x, y), (x+w, y+h), (0, 20, 200), 1)
 
             cam.send(img)
             cam.sleep_until_next_frame()
