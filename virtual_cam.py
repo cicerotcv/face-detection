@@ -3,7 +3,7 @@ import numpy as np
 import pyvirtualcam
 from pyvirtualcam import PixelFormat
 
-from utils import aim_to_image, image_to_blur, image_to_red
+from face_detector import image_transform
 
 face_cascade = cv2.CascadeClassifier('./src/h_cascade_frontalface.xml')
 
@@ -31,17 +31,8 @@ def main():
 
         while True:
             ret, img = cap.read()
-
             if ret:
-                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-                detections = face_cascade.detectMultiScale(gray, 1.1, 4)
-
-                for (x, y, w, h) in detections:
-                    image_to_red(img, x, y, w, h)
-                    image_to_blur(img, x, y, w, h, factor=55)
-                    aim_to_image(img, x, y, w, h)
-
+                img = image_transform(img)
                 cam.send(img)
                 cam.sleep_until_next_frame()
 
