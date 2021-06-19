@@ -1,0 +1,3 @@
+/src/**/*.png
+!/src/**/demo.png
+/src/**/*.mp4

@@ -1,10 +1,14 @@
+from time import time
+
 import cv2
 import numpy as np
 
+from utils import frame_to_image, grid_to_image, image_to_blur, image_to_red
+
 face_cascade = cv2.CascadeClassifier('./src/h_cascade_frontalface.xml')
 cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FPS, 15)
 
-# img = cv2.imread('')
 
 while True:
     _, img = cap.read()
@@ -13,21 +17,16 @@ while True:
     detections = face_cascade.detectMultiScale(gray, 1.1, 4)
 
     for (x, y, w, h) in detections:
-        padding = 30
-        sub_img = img[y:y+h, x:x+w, :3]
-
-        red_rect = np.ones(sub_img.shape, dtype=np.uint8)*255
-        red_rect[:, :, :] = [0, 20, 150]
-
-        res = cv2.addWeighted(sub_img, 0.5, red_rect, 0.5, 1.0)
-
-        img[y:y+h, x:x+w, :] = res
-
-        cv2.rectangle(img, (x, y), (x+w, y+h), (0, 20, 200), 1)
+        image_to_red(img, x, y, w, h)
+        image_to_blur(img, x, y, w, h)
+        frame_to_image(img, x, y, w, h)
+        grid_to_image(img, x, y, w, h, number=5)
 
     cv2.imshow("Face", img)
 
-    if cv2.waitKey(100) == ord('q'):
+    if cv2.waitKey(100) == ord('p'):
+        cv2.imwrite(f"./src/screenshots/{int(time())}.png", img, )
+    if cv2.waitKey(30) == ord('q'):
         break
 
 
