@@ -1,3 +1,5 @@
 /src/**/*.png
 !/src/**/demo.png
 /src/**/*.mp4
+/__pycache__
+/.vscode
