@@ -5,8 +5,6 @@ from pyvirtualcam import PixelFormat
 
 from face_detector import image_transform
 
-face_cascade = cv2.CascadeClassifier('./src/h_cascade_frontalface.xml')
-
 
 def main():
     cap = cv2.VideoCapture(0)
