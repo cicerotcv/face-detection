@@ -18,16 +18,16 @@ def image_to_blur(img, x, y, w, h, factor=21):
     img[y:y+h, x:x+w, :] = blur
 
 
-def frame_to_image(img, x, y, w, h):
+def frame_to_image(img, x, y, w, h, line_width=1):
     cx, cy = x + w//2, y + w//2
     dx, dy = w//10, h//10
-    cv2.rectangle(img, (x, y), (x+w, y+h), RED, 1)
+    cv2.rectangle(img, (x, y), (x+w, y+h), RED, line_width)
 
 
-def grid_to_image(img, x, y, w, h, number=5, color=RED):
+def grid_to_image(img, x, y, w, h, number=5, color=RED, line_width=1):
     number = (2*number + 1)//2
     for i in range(number):
         cv2.line(img, (x + w*(i + 1)//number, y + 1),
-                 (x + w*(i + 1)//number, y + h), color, 1)
+                 (x + w*(i + 1)//number, y + h), color, line_width)
         cv2.line(img, (x + 1, y + h*(i + 1)//number),
-                 (x + w, y + h*(i + 1)//number), color, 1)
+                 (x + w, y + h*(i + 1)//number), color, line_width)

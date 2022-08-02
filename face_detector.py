@@ -15,7 +15,7 @@ def image_transform(img):
 
     for (x, y, w, h) in detections:
         image_to_red(image_copy, x, y, w, h)
-        image_to_blur(image_copy, x, y, w, h)
+        image_to_blur(image_copy, x, y, w, h, factor=35)
         frame_to_image(image_copy, x, y, w, h)
         grid_to_image(image_copy, x, y, w, h, number=5)
 
